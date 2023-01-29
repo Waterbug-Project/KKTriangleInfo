@@ -13,11 +13,11 @@ using UnityEngine;
 
 namespace KKTriangleInfo
 {
-	class KKTriangleInfoController : GameCustomFunctionController
+	class KKTIGameController : GameCustomFunctionController
 	{
 		protected override void OnStartH(HSceneProc inProc, bool inIsFreeH)
 		{
-			UnityEngine.Debug.Log("[KKTriangleInfo] Hello World!");
+			
 		}
 	}
 }

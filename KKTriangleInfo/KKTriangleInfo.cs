@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using KKAPI;
+using KKAPI.Chara;
 using KKAPI.MainGame;
 
 namespace KKTriangleInfo
@@ -30,7 +28,10 @@ namespace KKTriangleInfo
 			_exampleConfigEntry = Config.Bind("General", "Enable this plugin", true, "If false, this plugin will do nothing");
 
 			if (_exampleConfigEntry.Value)
-				GameAPI.RegisterExtraBehaviour<KKTriangleInfoController>(GUID);
+			{
+				GameAPI.RegisterExtraBehaviour<KKTIGameController>(GUID);
+				CharacterApi.RegisterExtraBehaviour<KKTICharaController>(GUID);
+			}
 		}
 	}
 }

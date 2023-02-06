@@ -15,9 +15,13 @@ namespace KKTriangleInfo
 {
 	class KKTIGameController : GameCustomFunctionController
 	{
+		private Raycaster caster;
+
+		//We just need a way to create one and exactly one raycaster
 		protected override void OnStartH(HSceneProc inProc, bool inIsFreeH)
 		{
-			
+			GameObject temp = new GameObject();
+			caster = temp.AddComponent<Raycaster>();
 		}
 	}
 }

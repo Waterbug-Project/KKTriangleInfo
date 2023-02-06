@@ -63,7 +63,7 @@ namespace KKTriangleInfo
 				rends = baseObj.GetComponentsInChildren<SkinnedMeshRenderer>(true);
 				wbColls = new KKTICollider[rends.Length];
 				for (int i = 0; i < wbColls.Length; ++i)
-					wbColls[i] = KKTICollider.MakeKKTIColliderObj(rends[i], "WB_Clothes_Coll_" + rends[i].name, cha, kind);
+					wbColls[i] = KKTICollider.MakeKKTIColliderObj(rends[i], "KKTI_Clothes_Coll_" + rends[i].name, kind);
 			}
 		}
 

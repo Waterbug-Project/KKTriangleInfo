@@ -35,7 +35,7 @@ namespace KKTriangleInfo
 		{
 			headColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "cf_O_face"), "KKTI_Head");
 			tongueColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_tang"), "KKTI_Tongue");
-			bodyColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objBody.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_body_a"), "KKTI_Body", ChaControl);
+			bodyColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objBody.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_body_a"), "KKTI_Body");
 			hairColl = KKTIHairColliders.MakeKKTIHairColliders(ChaControl);
 			for (int i = 0; i < clothColls.Length; ++i)
 				clothColls[i] = KKTIClothingColliders.MakeKKTIClothingColliders(ChaControl, (ChaFileDefine.ClothesKind)i);
@@ -44,8 +44,11 @@ namespace KKTriangleInfo
 
 		protected override void Update()
 		{
-			if (Input.GetKeyDown("y"))
+			if (Input.GetKeyDown("y") && ChaControl.sex == 1)
+			{
+				bodyColl.UpdateCollider();
 				bodyColl.ToggleVisible();
+			}
 		}
 	}
 }

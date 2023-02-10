@@ -20,7 +20,6 @@ namespace KKTriangleInfo
 
 		private MeshRenderer debugRend;
 		private MeshFilter debugFilt;
-		private Mesh debugCheckMesh = null;
 
 		//Surely there must be a better way of getting all this information in.
 		public static KKTICollider MakeKKTIColliderObj(SkinnedMeshRenderer inSource, string inName = "KKTICollider",
@@ -37,10 +36,7 @@ namespace KKTriangleInfo
 		public static KKTICollider MakeKKTIColliderObj(MeshFilter inSource, string inName = "KKTICollider",
 			ChaFileDefine.ClothesKind inKind = ChaFileDefine.ClothesKind.top)
 		{
-			Mesh mesh = new Mesh();
-			AssignMesh(inSource.sharedMesh, mesh);
-
-			return MakeKKTICollInternal(inSource.transform, mesh, inName, null, inKind);
+			return MakeKKTICollInternal(inSource.transform, inSource.sharedMesh, inName, null, inKind);
 		}
 
 		private static KKTICollider MakeKKTICollInternal(Transform inTransf, Mesh inMesh, string inName,
@@ -52,20 +48,18 @@ namespace KKTriangleInfo
 			newObj.AddComponent<Rigidbody>().isKinematic = true;
 
 			//DEBUG - add togglable visibility
-			GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 			output.debugFilt = newObj.AddComponent<MeshFilter>();
 			output.debugFilt.mesh = new Mesh();
-			AssignMesh(inMesh, output.debugFilt.mesh);
+			output.debugFilt.mesh.vertices = inMesh.vertices;
+			output.debugFilt.mesh.uv = inMesh.uv;
+			output.debugFilt.mesh.triangles = inMesh.triangles;
 			output.debugRend = newObj.AddComponent<MeshRenderer>();
-			output.debugRend.material = temp.GetComponent<MeshRenderer>().material;
+			output.debugRend.material = new Material(Shader.Find("Shader Forge/main_item"));
 			output.debugRend.enabled = false;
-			Destroy(temp);
-
-			MeshCollider outColl = newObj.AddComponent<MeshCollider>();
 
 			output.baseTransf = inTransf;
 			output.meshSource = inSource;
-			output.coll = outColl;
+			output.coll = newObj.AddComponent<MeshCollider>();
 
 			//Initialize public mesh
 			output.accessMesh = new Mesh();
@@ -79,15 +73,9 @@ namespace KKTriangleInfo
 				output.accessMesh.RecalculateBounds();
 				output.accessMesh.RecalculateNormals();
 				output.accessMesh.GetVertices(output.accessVerts);
-				outColl.sharedMesh = inMesh;
-				outColl.sharedMesh.RecalculateBounds();
-				outColl.sharedMesh.RecalculateNormals();
-			}
-			if (output.meshSource != null)
-			{
-				output.debugCheckMesh = new Mesh();
-				output.meshSource.BakeMesh(output.debugCheckMesh);
-				output.debugCheckMesh.RecalculateBounds();
+				output.coll.sharedMesh = inMesh;
+				output.coll.sharedMesh.RecalculateBounds();
+				output.coll.sharedMesh.RecalculateNormals();
 			}
 
 			newObj.transform.position = inTransf.position;
@@ -105,11 +93,6 @@ namespace KKTriangleInfo
 			//Originally caught edge cases - now allows colliders based on MeshFilters to avoid redundant calculations.
 			if (meshSource != null)
 				UpdatePublics();
-		}
-
-		private void ClearCollider()
-		{
-			coll.sharedMesh = null;
 		}
 
 		public void UpdateCollider()
@@ -151,32 +134,6 @@ namespace KKTriangleInfo
 		public void ToggleVisible()
 		{
 			SetVisible(!debugRend.enabled);
-		}
-
-		public void ManualRefresh()
-		{
-			Mesh tempMesh = new Mesh();
-			meshSource.BakeMesh(tempMesh);
-			coll.sharedMesh = null;
-			coll.sharedMesh = tempMesh;
-			coll.sharedMesh.vertices = tempMesh.vertices;
-			coll.sharedMesh.uv = tempMesh.uv;
-			coll.sharedMesh.triangles = tempMesh.triangles;
-			coll.sharedMesh.RecalculateBounds();
-			coll.sharedMesh.RecalculateNormals();
-			coll.sharedMesh.name = "KKTI_Body_Mesh_" + coll.sharedMesh.vertices[0].x;
-		}
-
-		private static void AssignMesh(Mesh source, Mesh dest)
-		{
-			dest.Clear();
-			source.MarkDynamic();
-			source.RecalculateBounds();
-			source.RecalculateNormals();
-			dest.vertices = source.vertices;
-			dest.uv = source.uv;
-			dest.triangles = source.triangles;
-			dest = source;
 		}
 	}
 }

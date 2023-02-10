@@ -12,8 +12,6 @@ namespace KKTriangleInfo
 	//This includes the colliders for various states of undress - colliders are enabled and disabled as needed
 	class KKTIClothingColliders : MonoBehaviour
 	{
-		public static event EventHandler ClothesShiftEvent;
-
 		ChaControl cha;
 		ChaFileDefine.ClothesKind kind;
 		KKTICollider[] wbColls;
@@ -102,14 +100,6 @@ namespace KKTriangleInfo
 				for (int i = 0; i < wbColls.Length; ++i)
 					if (rends[i].isVisible)
 						wbColls[i].ToggleVisible();
-		}
-
-		//We don't actually use this for anything. What would this do that UpdateCollider doesn't?
-		public void ManualRefresh()
-		{
-			if (wbColls != null)
-				foreach (KKTICollider coll in wbColls)
-					coll.ManualRefresh();
 		}
 
 		public void UpdateCollider()

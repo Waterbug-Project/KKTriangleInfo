@@ -13,7 +13,6 @@ namespace KKTriangleInfo
 		Mesh tempMesh;
 		MeshFilter meshFilter;
 		MeshRenderer meshRend;
-		List<GameObject> debugObjs;
 		KKTICollider hitColl;
 		Vector3[] verts;
 		int[] vertInds;
@@ -25,11 +24,7 @@ namespace KKTriangleInfo
 
 			output.meshFilter = newObj.AddComponent<MeshFilter>();
 			output.meshRend = newObj.AddComponent<MeshRenderer>();
-			//Clumsy code to obtain material
-			GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			output.meshRend.material = temp.GetComponent<MeshRenderer>().material;
-			Destroy(temp);
-			output.debugObjs = new List<GameObject>();
+			output.meshRend.material = new Material(Shader.Find("Shader Forge/main_item"));
 			output.baseTransf = inObj.transform;
 
 			output.hitColl = inObj.GetComponent<KKTICollider>();
@@ -47,12 +42,6 @@ namespace KKTriangleInfo
 			output.tempMesh.vertices = output.verts;
 			output.tempMesh.uv = new Vector2[] { Vector2.zero, new Vector2(1f, 0f), Vector2.one };      //We don't use this. May or may not display the upper-right triangle of a square image.
 			output.tempMesh.triangles = new int[] { 0, 1, 2 };
-			for (int i = 0; i < 3; ++i)
-			{
-				output.debugObjs.Add(GameObject.CreatePrimitive(PrimitiveType.Sphere));
-				output.debugObjs[i].transform.localScale = new Vector3(0.001f, 0.001f, 0.001f);
-				output.debugObjs[i].transform.position = output.tempMesh.vertices[i];
-			}
 
 			return output;
 		}
@@ -67,15 +56,11 @@ namespace KKTriangleInfo
 				//tempMesh = meshFilter.mesh;
 				meshFilter.mesh = tempMesh;
 				tempMesh.vertices = verts;
-				for (int i = 0; i < 3; ++i)
-					debugObjs[i].transform.position = tempMesh.vertices[i];
 			}
 		}
 
 		void OnDestroy()
 		{
-			foreach (GameObject go in debugObjs)
-				Destroy(go);
 			Destroy(gameObject);
 		}
 	}

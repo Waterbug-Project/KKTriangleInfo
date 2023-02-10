@@ -54,7 +54,7 @@ namespace KKTriangleInfo
 			output.debugFilt.mesh.uv = inMesh.uv;
 			output.debugFilt.mesh.triangles = inMesh.triangles;
 			output.debugRend = newObj.AddComponent<MeshRenderer>();
-			output.debugRend.material = new Material(Shader.Find("Shader Forge/main_item"));
+			output.debugRend.material = new Material(Shader.Find("Hidden/Internal-Colored"));
 			output.debugRend.enabled = false;
 
 			output.baseTransf = inTransf;

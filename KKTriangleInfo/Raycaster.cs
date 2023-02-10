@@ -12,7 +12,7 @@ namespace KKTriangleInfo
 		Camera mainCamera;
 		string guiText;
 		SinglePolygon displayTri;
-
+		
 		void Start()
 		{
 			mainCamera = Camera.main;
@@ -27,8 +27,8 @@ namespace KKTriangleInfo
 				{
 					if (displayTri != null)
 						Destroy(displayTri);
-					transform.LookAt(transform.position + mainCamera.ScreenPointToRay(Input.mousePosition).direction);
-					if (Physics.Raycast(new Ray(mainCamera.transform.position, mainCamera.transform.forward), out RaycastHit hit, Mathf.Infinity, 1 << KKTICharaController.KKTICOLLLAYER))
+					KKTICharaController.UpdateCollidersEvent.Invoke(this, null);
+					if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, 1 << KKTICharaController.KKTICOLLLAYER))
 					{
 						KKTICollider hitColl = hit.collider.gameObject.GetComponent<KKTICollider>();
 						int[] tempTris = hitColl.accessMesh.triangles;

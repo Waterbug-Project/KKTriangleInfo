@@ -14,13 +14,15 @@ namespace KKTriangleInfo
 	{
 		public const int KKTICOLLLAYER = 14;
 
+		public static EventHandler UpdateCollidersEvent;
+
 		KKTICollider headColl = null;
 		KKTICollider tongueColl = null;
 		KKTICollider bodyColl = null;
 		KKTIHairColliders hairColl = null;
 		KKTIClothingColliders[] clothColls = new KKTIClothingColliders[9];
 		KKTIAccessoryColliders accColl = null;
-		
+
 		protected override void OnCardBeingSaved(GameMode curGameMode)
 		{
 			SetExtendedData(null);
@@ -33,6 +35,8 @@ namespace KKTriangleInfo
 
 		private void HandleStartH(object sender, EventArgs e)
 		{
+			UpdateCollidersEvent += UpdateColliders;
+			
 			headColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "cf_O_face"), "KKTI_Head");
 			tongueColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_tang"), "KKTI_Tongue");
 			bodyColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objBody.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_body_a"), "KKTI_Body");
@@ -42,9 +46,20 @@ namespace KKTriangleInfo
 			accColl = KKTIAccessoryColliders.MakeKKTIAccessoryColliders(ChaControl);
 		}
 
+		private void UpdateColliders(object sender, EventArgs e)
+		{
+			headColl.UpdateCollider();
+			tongueColl.UpdateCollider();
+			bodyColl.UpdateCollider();
+			hairColl.UpdateCollider();
+			foreach (KKTIClothingColliders coll in clothColls)
+				coll.UpdateCollider();
+			accColl.UpdateCollider();
+		}
+
 		protected override void Update()
 		{
-			if (Input.GetKeyDown("y") && ChaControl.sex == 1)
+			if (Input.GetKeyDown("y"))
 			{
 				bodyColl.UpdateCollider();
 				bodyColl.ToggleVisible();

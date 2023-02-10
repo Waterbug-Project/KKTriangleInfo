@@ -20,6 +20,7 @@ namespace KKTriangleInfo
 		//We just need a way to create one and exactly one raycaster
 		protected override void OnStartH(HSceneProc inProc, bool inIsFreeH)
 		{
+			Camera.main.cullingMask += 1 << KKTICharaController.KKTICOLLLAYER;
 			GameObject temp = new GameObject();
 			caster = temp.AddComponent<Raycaster>();
 		}

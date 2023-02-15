@@ -20,9 +20,9 @@ namespace KKTriangleInfo
 		void Start()
 		{
 			mainCamera = Camera.main;
-			guiText = "";
+			guiText = "Press \"" + KKTriangleInfo.CASTKEY + "\" to select the polygon underneath the cursor!";
 			glMat = new Material(Shader.Find("Hidden/Internal-Colored"));
-			glMat.color = Color.red;
+			glMat.color = KKTriangleInfo.SELECTCOLOR;
 			viewVerts = new Vector3[3];
 		}
 
@@ -30,7 +30,7 @@ namespace KKTriangleInfo
 		{
 			try
 			{
-				if (Input.GetKeyDown("t"))
+				if (Input.GetKeyDown(KKTriangleInfo.CASTKEY.ToString().ToLower()))
 				{
 					KKTICharaController.UpdateCollidersEvent.Invoke(this, null);
 					if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, 1 << KKTICharaController.KKTICOLLLAYER))
@@ -44,14 +44,17 @@ namespace KKTriangleInfo
 							vertInds[i] = tempTris[hit.triangleIndex * 3 + i];
 							verts[i] = hitColl.transform.TransformPoint(hitColl.accessVerts[vertInds[i]]);
 						}
-						guiText = "Mesh name:\t" + hitColl.name +
+						guiText = "Mesh name:\t" + hitColl.accessMesh.name +
 									"\nTriangle Index:\t" + hit.triangleIndex +
 									"\nVertex Numbers:\t" + vertInds[0] + "," + vertInds[1] + "," + vertInds[2] +
 									"\nVertex Positions:\t" + verts[0] + "," + verts[1] + "," + verts[2] +
 									"\nBarycentric Coords:\t" + hit.barycentricCoordinate.ToString();
 					}
 					else
+					{
+						verts = null;
 						guiText = "Raycast failed to collide with anything!";
+					}
 				}
 			}
 			catch (Exception ex)

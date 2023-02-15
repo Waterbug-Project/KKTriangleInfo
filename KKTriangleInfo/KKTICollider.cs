@@ -29,6 +29,7 @@ namespace KKTriangleInfo
 			inSource.BakeMesh(mesh);
 			mesh.RecalculateBounds();
 			mesh.RecalculateNormals();
+			mesh.name = inSource.name;
 
 			return MakeKKTICollInternal(inSource.transform, mesh, inName, inSource, inKind);
 		}
@@ -64,6 +65,7 @@ namespace KKTriangleInfo
 			//Initialize public mesh
 			output.accessMesh = new Mesh();
 			output.accessMesh.MarkDynamic();
+			output.accessMesh.name = inMesh.name;
 			output.accessVerts = new List<Vector3>();
 			if (output.meshSource != null)
 				output.UpdatePublics();

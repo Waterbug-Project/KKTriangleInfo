@@ -12,6 +12,7 @@ namespace KKTriangleInfo
 	{
 		List<KKTICollider> hairColls;
 		List<SkinnedMeshRenderer> rends;
+		List<MeshFilter> filts;
 
 		public static KKTIHairColliders MakeKKTIHairColliders(ChaControl inCha)
 		{
@@ -19,27 +20,28 @@ namespace KKTriangleInfo
 			KKTIHairColliders output = newObj.AddComponent<KKTIHairColliders>();
 			output.hairColls = new List<KKTICollider>();
 			output.rends = new List<SkinnedMeshRenderer>();
+			output.filts = new List<MeshFilter>();
 			GameObject[] hairIter = inCha.objHair;
 			foreach (GameObject go in hairIter)
-				foreach (SkinnedMeshRenderer smr in go.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+			{
+				SkinnedMeshRenderer[] smrs = go.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+				foreach (SkinnedMeshRenderer smr in smrs)
 				{
 					output.rends.Add(smr);
 					KKTICollider newColl = KKTICollider.MakeKKTIColliderObj(smr, "KKTI_Hair_Part");
 					output.hairColls.Add(newColl);
 				}
 
+				MeshFilter[] mfs = go.GetComponentsInChildren<MeshFilter>(true);
+				foreach (MeshFilter filt in mfs)
+				{
+					output.filts.Add(filt);
+					KKTICollider newColl = KKTICollider.MakeKKTIColliderObj(filt, "KKTI_Hair_Part");
+					output.hairColls.Add(newColl);
+				}
+			}
+
 			return output;
-		}
-
-		public void Update()
-		{
-			SetCollidersByVisibility();
-		}
-
-		private void SetCollidersByVisibility()
-		{
-			for (int i = 0; i < hairColls.Count; ++i)
-				hairColls[i].gameObject.SetActive(rends[i].isVisible);
 		}
 		
 		public void SetVisible(bool inVisible)

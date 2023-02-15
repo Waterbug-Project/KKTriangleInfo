@@ -70,7 +70,7 @@ namespace KKTriangleInfo
 
 		public void OnPostRender()
 		{
-			if (verts != null)
+			if (verts != null && hitColl.isActiveAndEnabled)
 			{
 				for (int i = 0; i < 3; ++i)
 					viewVerts[i] = mainCamera.WorldToViewportPoint(hitColl.transform.TransformPoint(hitColl.accessVerts[vertInds[i]]));

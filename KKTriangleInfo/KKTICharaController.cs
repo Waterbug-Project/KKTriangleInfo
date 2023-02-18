@@ -30,10 +30,14 @@ namespace KKTriangleInfo
 		protected override void OnReload(GameMode inMode)
 		{
 			GameAPI.StartH += HandleStartH;
+			GameAPI.EndH += HandleEndH;
 		}
 
 		private void HandleStartH(object sender, EventArgs e)
 		{
+			if (this == null)
+				return;
+
 			UpdateCollidersEvent += UpdateColliders;
 			
 			headColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "cf_O_face"), "KKTI_Head");
@@ -44,7 +48,20 @@ namespace KKTriangleInfo
 				clothColls[i] = KKTIClothingColliders.MakeKKTIClothingColliders(ChaControl, (ChaFileDefine.ClothesKind)i);
 			accColl = KKTIAccessoryColliders.MakeKKTIAccessoryColliders(ChaControl);
 		}
-		
+
+		public void HandleEndH(object sender, EventArgs e)
+		{
+			UpdateCollidersEvent -= UpdateColliders;
+
+			Destroy(headColl.gameObject);
+			Destroy(bodyColl.gameObject);
+			Destroy(tongueColl.gameObject);
+			Destroy(hairColl.gameObject);
+			foreach (KKTIClothingColliders colls in clothColls)
+				Destroy(colls.gameObject);
+			Destroy(accColl.gameObject);
+		}
+
 		private void UpdateColliders(object sender, EventArgs e)
 		{
 			headColl.UpdateCollider();

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace KKTriangleInfo
@@ -30,7 +29,7 @@ namespace KKTriangleInfo
 		{
 			try
 			{
-				if (Input.GetKeyDown(KKTriangleInfo.CASTKEY.ToString().ToLower()))
+				if (KKTriangleInfo.CASTKEY.IsDown())
 				{
 					KKTICharaController.UpdateCollidersEvent.Invoke(this, null);
 					if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, 1 << KKTICharaController.KKTICOLLLAYER))

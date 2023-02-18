@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace KKTriangleInfo
@@ -24,22 +23,15 @@ namespace KKTriangleInfo
 			GameObject[] hairIter = inCha.objHair;
 			foreach (GameObject go in hairIter)
 			{
-				SkinnedMeshRenderer[] smrs = go.GetComponentsInChildren<SkinnedMeshRenderer>(true);
-				foreach (SkinnedMeshRenderer smr in smrs)
-				{
-					output.rends.Add(smr);
-					KKTICollider newColl = KKTICollider.MakeKKTIColliderObj(smr, "KKTI_Hair_Part");
-					output.hairColls.Add(newColl);
-				}
-
-				MeshFilter[] mfs = go.GetComponentsInChildren<MeshFilter>(true);
-				foreach (MeshFilter filt in mfs)
-				{
-					output.filts.Add(filt);
-					KKTICollider newColl = KKTICollider.MakeKKTIColliderObj(filt, "KKTI_Hair_Part");
-					output.hairColls.Add(newColl);
-				}
+				output.rends.AddRange(go.GetComponentsInChildren<SkinnedMeshRenderer>(true));
+				output.filts.AddRange(go.GetComponentsInChildren<MeshFilter>(true));
 			}
+
+			foreach (SkinnedMeshRenderer smr in output.rends)
+				output.hairColls.Add(KKTICollider.MakeKKTIColliderObj(smr, "KKTI_Hair_Part"));
+
+			foreach (MeshFilter filt in output.filts)
+				output.hairColls.Add(KKTICollider.MakeKKTIColliderObj(filt, "KKTI_Hair_Part"));
 
 			return output;
 		}

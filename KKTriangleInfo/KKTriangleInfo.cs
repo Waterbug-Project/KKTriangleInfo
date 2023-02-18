@@ -19,8 +19,7 @@ namespace KKTriangleInfo
 		public const string Version = "0.0.0.0";
 
 		public static Color SELECTCOLOR;
-		public static char CASTKEY;
-		public static List<char> CASTKEYMODS;
+		public static KeyboardShortcut CASTKEY;
 
 		internal static new ManualLogSource Logger;
 		
@@ -37,23 +36,9 @@ namespace KKTriangleInfo
 			greenVal = Config.Bind("General", "Selection Green Value", 1.0f, "Green color value for selection triangle, between 0 and 1");
 			blueVal = Config.Bind("General", "Selection Blue Value", 0.0f, "Blue color value for selection triangle, between 0 and 1");
 			SELECTCOLOR = new Color(Mathf.Clamp(redVal.Value, 0f, 1f), Mathf.Clamp(greenVal.Value, 0f, 1f), Mathf.Clamp(blueVal.Value, 0f, 1f));
-
-			CASTKEY = 't';
-			//try
-			//{
-			//	castKey = Config.Bind("General", "Selection Hotkey", new KeyboardShortcut(KeyCode.T), "Key to press to select the polygon underneath the cursor");
-			//	KeyboardShortcut configVal = castKey.Value;
-			//	CASTKEY = (char)configVal.MainKey;
-
-			//	CASTKEYMODS = new List<char>();
-			//	IEnumerable<KeyCode> modKeys = configVal.Modifiers;
-			//	foreach (char modKey in modKeys)
-			//		CASTKEYMODS.Add(modKey);
-			//}
-			//catch (Exception ex)
-			//{
-			//	UnityEngine.Debug.Log("Found exception in KKTriangleInfo.Awake: " + ex.ToString() + "!");
-			//}
+			
+			castKey = Config.Bind("General", "Selection Hotkey", new KeyboardShortcut(KeyCode.T), "Key to press to select the polygon underneath the cursor. Must be capitalized.");
+			CASTKEY = castKey.Value.MainKey == KeyCode.None ? new KeyboardShortcut(KeyCode.T) : castKey.Value;
 
 			GameAPI.RegisterExtraBehaviour<KKTIGameController>(GUID);
 			CharacterApi.RegisterExtraBehaviour<KKTICharaController>(GUID);

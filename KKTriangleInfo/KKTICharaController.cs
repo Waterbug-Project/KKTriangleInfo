@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using KKAPI.Chara;
 using KKAPI;
@@ -45,7 +44,7 @@ namespace KKTriangleInfo
 				clothColls[i] = KKTIClothingColliders.MakeKKTIClothingColliders(ChaControl, (ChaFileDefine.ClothesKind)i);
 			accColl = KKTIAccessoryColliders.MakeKKTIAccessoryColliders(ChaControl);
 		}
-
+		
 		private void UpdateColliders(object sender, EventArgs e)
 		{
 			headColl.UpdateCollider();

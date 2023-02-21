@@ -27,10 +27,11 @@ namespace KKTriangleInfo
 			SetExtendedData(null);
 		}
 
-		protected override void OnReload(GameMode inMode)
+		protected override void Awake()
 		{
 			GameAPI.StartH += HandleStartH;
 			GameAPI.EndH += HandleEndH;
+			base.Awake();
 		}
 
 		private void HandleStartH(object sender, EventArgs e)
@@ -52,14 +53,8 @@ namespace KKTriangleInfo
 		public void HandleEndH(object sender, EventArgs e)
 		{
 			UpdateCollidersEvent -= UpdateColliders;
-
-			Destroy(headColl.gameObject);
-			Destroy(bodyColl.gameObject);
-			Destroy(tongueColl.gameObject);
-			Destroy(hairColl.gameObject);
-			foreach (KKTIClothingColliders colls in clothColls)
-				Destroy(colls.gameObject);
-			Destroy(accColl.gameObject);
+			GameAPI.StartH -= HandleStartH;
+			GameAPI.EndH -= HandleEndH;
 		}
 
 		private void UpdateColliders(object sender, EventArgs e)

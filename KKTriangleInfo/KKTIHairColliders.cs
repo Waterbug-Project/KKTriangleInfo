@@ -20,6 +20,7 @@ namespace KKTriangleInfo
 			output.hairColls = new List<KKTICollider>();
 			output.rends = new List<SkinnedMeshRenderer>();
 			output.filts = new List<MeshFilter>();
+			output.name = "KKTI_Hair_Colliders";
 			GameObject[] hairIter = inCha.objHair;
 			foreach (GameObject go in hairIter)
 			{

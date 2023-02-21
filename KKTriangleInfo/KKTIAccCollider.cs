@@ -25,6 +25,7 @@ namespace KKTriangleInfo
 			output.acc = inAcc;
 			output.accID = inID;
 			output.updateFunc = inUpdateFunc;
+			output.name = "KKTI_Acc_Coll_" + inID;
 			output.ReloadAccessories();
 			//Force colliders to become active/inactive
 			output.isVisible = !inAcc.activeSelf;

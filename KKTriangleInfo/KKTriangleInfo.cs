@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
+using HarmonyLib;
 using KKAPI;
 using KKAPI.Chara;
 using KKAPI.MainGame;
@@ -31,6 +32,16 @@ namespace KKTriangleInfo
 		private void Awake()
 		{
 			Logger = base.Logger;
+
+			try
+			{
+				Harmony.CreateAndPatchAll(typeof(ChaControl));
+				Harmony.CreateAndPatchAll(typeof(KKTIClothingColliders));
+			}
+			catch (Exception ex)
+			{
+				UnityEngine.Debug.Log("Found exception while patching Harmony: " + ex.ToString() + "!");
+			}
 
 			redVal = Config.Bind("General", "Selection Red Value", 0.0f, "Red color value for selection triangle, between 0 and 1");
 			greenVal = Config.Bind("General", "Selection Green Value", 1.0f, "Green color value for selection triangle, between 0 and 1");

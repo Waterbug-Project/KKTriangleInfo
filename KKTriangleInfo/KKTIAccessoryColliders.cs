@@ -16,6 +16,7 @@ namespace KKTriangleInfo
 			KKTIAccessoryColliders output = newObj.AddComponent<KKTIAccessoryColliders>();
 			output.cha = inCha;
 			output.accColls = new List<KKTIAccCollider>();
+			output.name = "KKTI_Accessory_Colliders";
 			output.LoadNewAccessories();
 
 			return output;

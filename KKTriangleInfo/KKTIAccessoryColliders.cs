@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace KKTriangleInfo
@@ -17,12 +18,13 @@ namespace KKTriangleInfo
 			output.cha = inCha;
 			output.accColls = new List<KKTIAccCollider>();
 			output.name = "KKTI_Accessory_Colliders";
-			output.LoadNewAccessories();
+			output.ChangeAccessoryHandler(null, null);
+			Hooks.ChangeAccessoryEvent += output.ChangeAccessoryHandler;
 
 			return output;
 		}
 
-		protected void LoadNewAccessories()
+		public void ChangeAccessoryHandler(object sender, EventArgs e)
 		{
 			if (accColls != null)
 			{
@@ -36,7 +38,7 @@ namespace KKTriangleInfo
 			while (++i < accArray.Length)
 				if (accArray[i] != null)
 				{
-					KKTIAccCollider newColl = KKTIAccCollider.MakeKKTIAccCollider(accArray[i], LoadNewAccessories, i.ToString());
+					KKTIAccCollider newColl = KKTIAccCollider.MakeKKTIAccCollider(accArray[i], i.ToString());
 					accColls.Add(newColl);
 				}
 		}
@@ -61,6 +63,7 @@ namespace KKTriangleInfo
 
 		public void OnDestroy()
 		{
+			Hooks.ChangeAccessoryEvent -= ChangeAccessoryHandler;
 			if (accColls != null)
 				foreach (KKTIAccCollider coll in accColls)
 					Destroy(coll.gameObject);

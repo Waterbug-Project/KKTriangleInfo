@@ -36,7 +36,7 @@ namespace KKTriangleInfo
 			try
 			{
 				Harmony.CreateAndPatchAll(typeof(ChaControl));
-				Harmony.CreateAndPatchAll(typeof(KKTIClothingColliders));
+				Harmony.CreateAndPatchAll(typeof(Hooks));
 			}
 			catch (Exception ex)
 			{

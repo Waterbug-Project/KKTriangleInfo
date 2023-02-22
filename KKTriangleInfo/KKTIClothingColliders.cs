@@ -1,9 +1,4 @@
-﻿using HarmonyLib;
-using KKAPI.Chara;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using UnityEngine;
 
 namespace KKTriangleInfo
@@ -12,8 +7,6 @@ namespace KKTriangleInfo
 	//This includes the colliders for various states of undress - colliders are enabled and disabled as needed
 	class KKTIClothingColliders : MonoBehaviour
 	{
-		public static event EventHandler ChangeClothesEvent;
-
 		ChaControl cha;
 		ChaFileDefine.ClothesKind kind;
 		KKTICollider[] wbColls;
@@ -31,24 +24,12 @@ namespace KKTriangleInfo
 			output.kind = inKind;
 			output.name = "KKTI_Clothing_Colliders_" + inKind.ToString();
 			output.LoadClothingMeshes();
-			ChangeClothesEvent += output.ChangeClothesHandler;
+			Hooks.ChangeClothesEvent += output.ChangeClothesHandler;
 
 			return output;
 		}
 
-		[HarmonyPostfix, HarmonyPatch(typeof(ChaControl), "ChangeClothes", typeof(bool))]
-		public static void ChangeClothesHook()
-		{
-			//Not sure if this is the best way to go from static to instanced context, but if it isn't broken...
-			ChangeClothesEvent?.Invoke(null, null);
-		}
-
 		public void ChangeClothesHandler(object sender, EventArgs e)
-		{
-			CheckClothesChange();
-		}
-
-		private void CheckClothesChange()
 		{
 			//Some clothing, like the school swimsuit, will change old clothing pieces to Delete_Reserve objects.
 			if (baseObj == null || baseObj.name == "Delete_Reserve")
@@ -107,7 +88,7 @@ namespace KKTriangleInfo
 
 		public void OnDestroy()
 		{
-			ChangeClothesEvent -= ChangeClothesHandler;
+			Hooks.ChangeClothesEvent -= ChangeClothesHandler;
 			if (wbColls != null)
 				for (int i = 0; i < wbColls.Length; ++i)
 					Destroy(wbColls[i].gameObject);

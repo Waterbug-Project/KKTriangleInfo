@@ -76,6 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hooks.cs" />
     <Compile Include="KKTICharaController.cs" />
     <Compile Include="KKTriangleInfo.cs" />
     <Compile Include="KKTIGameController.cs" />

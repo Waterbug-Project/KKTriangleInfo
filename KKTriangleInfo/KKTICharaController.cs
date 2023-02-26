@@ -70,10 +70,13 @@ namespace KKTriangleInfo
 
 		protected override void Update()
 		{
-			if (Input.GetKeyDown("y"))
+			if (ChaControl.sex == 1)
 			{
-				bodyColl.UpdateCollider();
-				bodyColl.ToggleVisible();
+				if (Input.GetKeyDown("y"))
+				{
+					bodyColl.UpdateCollider();
+					bodyColl.ToggleVisible();
+				}
 			}
 		}
 	}

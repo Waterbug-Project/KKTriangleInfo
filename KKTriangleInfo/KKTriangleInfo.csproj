@@ -44,8 +44,9 @@
     <Reference Include="ExtensibleSaveFormat">
       <HintPath>..\packages\ExtensibleSaveFormat.Koikatu.14.1.0\lib\net35\ExtensibleSaveFormat.dll</HintPath>
     </Reference>
-    <Reference Include="KKAPI">
-      <HintPath>..\packages\IllusionModdingAPI.KKAPI.1.11.1\lib\net35\KKAPI.dll</HintPath>
+    <Reference Include="KKAPI, Version=1.11.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\KKAPI_v1.35\plugins\KKAPI.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.10.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.10.4\lib\net35\Mono.Cecil.dll</HintPath>

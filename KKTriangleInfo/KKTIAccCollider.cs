@@ -12,7 +12,6 @@ namespace KKTriangleInfo
 		GameObject acc;
 		KKTICollider[] colls;
 		string accID;
-		bool isVisible;
 
 		public static KKTIAccCollider MakeKKTIAccCollider(GameObject inAcc, string inID = "X", int inLayer = KKTICharaController.KKTICOLLLAYER)
 		{
@@ -25,12 +24,29 @@ namespace KKTriangleInfo
 
 			SkinnedMeshRenderer[] rends = output.acc.GetComponentsInChildren<SkinnedMeshRenderer>(true);
 			MeshFilter[] filts = output.acc.GetComponentsInChildren<MeshFilter>(true);
-			output.colls = new KKTICollider[rends.Length + filts.Length];
+
+			//DEBUG - rework to remove checks for KKTIAccCollider on parent GameObject in final build
+			List<int> rendsInds = new List<int>();
+			List<int> filtsInds = new List<int>();
+			for (int i = 0; i < rends.Length || i < filts.Length; ++i)
+			{
+				if (i < rends.Length && rends[i].gameObject.GetComponent<KKTICollider>() == null)
+					rendsInds.Add(i);
+				if (i < filts.Length && filts[i].gameObject.GetComponent<KKTICollider>() == null)
+					filtsInds.Add(i);
+			}
+			output.colls = new KKTICollider[rendsInds.Count + filtsInds.Count];
 			int accCollIter = 0;
-			for (int i = 0; i < rends.Length; ++i, ++accCollIter)
-				output.colls[accCollIter] = KKTICollider.MakeKKTIColliderObj(rends[i], "KKTI_Acc_Coll_SMR_" + inID + "_" + accCollIter);
-			for (int i = 0; i < filts.Length; ++i, ++accCollIter)
-				output.colls[accCollIter] = KKTICollider.MakeKKTIColliderObj(filts[i], "KKTI_Acc_Coll_MF_" + inID + "_" + accCollIter);
+			foreach (int ind in rendsInds)
+			{
+				output.colls[accCollIter] = KKTICollider.MakeKKTIColliderObj(rends[ind], "KKTI_Acc_Coll_SMR_" + inID + "_" + accCollIter);
+				accCollIter++;
+			}
+			foreach (int ind in filtsInds)
+			{
+				output.colls[accCollIter] = KKTICollider.MakeKKTIColliderObj(filts[ind], "KKTI_Acc_Coll_MF_" + inID + "_" + accCollIter);
+				accCollIter++;
+			}
 
 			return output;
 		}

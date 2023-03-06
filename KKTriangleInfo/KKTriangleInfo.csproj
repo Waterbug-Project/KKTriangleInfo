@@ -80,7 +80,6 @@
     <Compile Include="Hooks.cs" />
     <Compile Include="KKTICharaController.cs" />
     <Compile Include="KKTriangleInfo.cs" />
-    <Compile Include="KKTIGameController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KKTICollider.cs" />
     <Compile Include="KKTIClothingColliders.cs" />

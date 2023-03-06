@@ -18,7 +18,7 @@ namespace KKTriangleInfo
 			output.cha = inCha;
 			output.accColls = new List<KKTIAccCollider>();
 			output.name = "KKTI_Accessory_Colliders";
-			output.ChangeAccessoryHandler(null, null);
+			output.ChangeAccessoryHandler(output, null);
 			Hooks.ChangeAccessoryEvent += output.ChangeAccessoryHandler;
 
 			return output;

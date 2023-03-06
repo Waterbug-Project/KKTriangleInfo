@@ -24,9 +24,21 @@ namespace KKTriangleInfo
 			output.kind = inKind;
 			output.name = "KKTI_Clothing_Colliders_" + inKind.ToString();
 			output.LoadClothingMeshes();
-			Hooks.ChangeClothesEvent += output.ChangeClothesHandler;
+			//It would be nice to put this in a function, bu tI can't figure out how to pass in the handler.
+			switch (inKind)
+			{
+				case ChaFileDefine.ClothesKind.top:			Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.bot:			Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.bra:			Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.shorts:		Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.gloves:		Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.panst:		Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.socks:		Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.shoes_inner:	Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.shoes_outer:	Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
+			}
 
-			return output;
+				return output;
 		}
 
 		public void ChangeClothesHandler(object sender, EventArgs e)
@@ -88,7 +100,18 @@ namespace KKTriangleInfo
 
 		public void OnDestroy()
 		{
-			Hooks.ChangeClothesEvent -= ChangeClothesHandler;
+			switch (kind)
+			{
+				case ChaFileDefine.ClothesKind.top:			Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.bot:			Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.bra:			Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.shorts:		Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.gloves:		Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.panst:		Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.socks:		Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.shoes_inner: Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.shoes_outer: Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
+			}
 			if (wbColls != null)
 				for (int i = 0; i < wbColls.Length; ++i)
 					Destroy(wbColls[i].gameObject);

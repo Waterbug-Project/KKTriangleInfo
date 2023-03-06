@@ -51,7 +51,6 @@ namespace KKTriangleInfo
 			castKey = Config.Bind("General", "Selection Hotkey", new KeyboardShortcut(KeyCode.T), "Key to press to select the polygon underneath the cursor. Must be capitalized.");
 			CASTKEY = castKey.Value.MainKey == KeyCode.None ? new KeyboardShortcut(KeyCode.T) : castKey.Value;
 
-			GameAPI.RegisterExtraBehaviour<KKTIGameController>(GUID);
 			CharacterApi.RegisterExtraBehaviour<KKTICharaController>(GUID);
 		}
 	}

@@ -6,12 +6,14 @@ using UnityEngine;
 using KKAPI.Chara;
 using KKAPI;
 using KKAPI.MainGame;
+using KKAPI.Maker;
 
 namespace KKTriangleInfo
 {
 	class KKTICharaController : CharaCustomFunctionController
 	{
 		public const int KKTICOLLLAYER = 14;
+		private static Raycaster caster;
 
 		public static EventHandler UpdateCollidersEvent;
 
@@ -29,18 +31,24 @@ namespace KKTriangleInfo
 
 		protected override void Awake()
 		{
-			GameAPI.StartH += HandleStartH;
-			GameAPI.EndH += HandleEndH;
+			UpdateCollidersEvent += UpdateColliders;
+			GameAPI.StartH += MakeColliders;
+			GameAPI.EndH += Cleanup;
+			MakerAPI.MakerBaseLoaded += MakeColliders;
+			MakerAPI.MakerExiting += Cleanup;
+			Hooks.ReloadEvent += MakeColliders;
+
 			base.Awake();
 		}
 
-		private void HandleStartH(object sender, EventArgs e)
+		private static void MakeRaycaster()
 		{
-			if (this == null)
-				return;
+			Camera.main.cullingMask += 1 << KKTICOLLLAYER;
+			caster = Camera.main.gameObject.AddComponent<Raycaster>();
+		}
 
-			UpdateCollidersEvent += UpdateColliders;
-			
+		private void MakeColliders(object sender, EventArgs e)
+		{
 			headColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "cf_O_face"), "KKTI_Head");
 			tongueColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_tang"), "KKTI_Tongue");
 			bodyColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objBody.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_body_a"), "KKTI_Body");
@@ -48,13 +56,21 @@ namespace KKTriangleInfo
 			for (int i = 0; i < clothColls.Length; ++i)
 				clothColls[i] = KKTIClothingColliders.MakeKKTIClothingColliders(ChaControl, (ChaFileDefine.ClothesKind)i);
 			accColl = KKTIAccessoryColliders.MakeKKTIAccessoryColliders(ChaControl);
+
+			if (caster == null)
+				MakeRaycaster();
 		}
 
-		public void HandleEndH(object sender, EventArgs e)
+		public void Cleanup(object sender, EventArgs e)
 		{
 			UpdateCollidersEvent -= UpdateColliders;
-			GameAPI.StartH -= HandleStartH;
-			GameAPI.EndH -= HandleEndH;
+			GameAPI.StartH -= MakeColliders;
+			GameAPI.EndH -= Cleanup;
+			MakerAPI.MakerBaseLoaded -= MakeColliders;
+			MakerAPI.MakerExiting -= Cleanup;
+			Hooks.ReloadEvent -= MakeColliders;
+			if (caster != null)
+				Destroy(caster);
 		}
 
 		private void UpdateColliders(object sender, EventArgs e)

@@ -50,18 +50,19 @@ namespace KKTriangleInfo
 		//	}
 		//}
 
-		//[HarmonyPostfix, HarmonyPatch(typeof(ChaControl), nameof(ChaControl.ChangeAccessoryAsync))]
-		//private static void ChangeAccessoryAsyncPostfix(ChaControl __instance, ref IEnumerator __result)
-		//{
-		//	var original = __result;
-		//	__result = new[] { original, Postfix() }.GetEnumerator();
+		[HarmonyPostfix, HarmonyPatch(typeof(ChaControl), nameof(ChaControl.ChangeAccessoryAsync), typeof(int), typeof(int), typeof(int), typeof(string), typeof(bool), typeof(bool))]
+		private static void ChangeAccessoryAsyncPostfix(ChaControl __instance, ref IEnumerator __result)
+		{
+			var original = __result;
+			__result = new[] { original, Postfix() }.GetEnumerator();
 
-		//	IEnumerator Postfix()
-		//	{
-		//		ChangeAccessoryEvent?.Invoke(null, null);
-		//		yield break;
-		//	}
-		//}
+			IEnumerator Postfix()
+			{
+				//if (MakerAPI.InsideMaker)		//Do we need this?
+					ChangeAccessoryEvent?.Invoke(null, null);
+				yield break;
+			}
+		}
 
 		[HarmonyPostfix, HarmonyPatch(typeof(ChaControl), nameof(ChaControl.ChangeClothesTopAsync))]
 		private static void ChangeClothesTopAsyncPostfix(ChaControl __instance, ref IEnumerator __result)
@@ -166,19 +167,5 @@ namespace KKTriangleInfo
 				yield break;
 			}
 		}
-
-		//[HarmonyPostfix, HarmonyPatch(typeof(ChaControl), nameof(ChaControl.ChangeAccessoryAsync), typeof(int), typeof(int), typeof(int), typeof(string), typeof(bool), typeof(bool))]
-		//private static void ChangeAccessoryAsyncPostfix(ChaControl __instance, ref IEnumerator __result)
-		//{
-		//	var original = __result;
-		//	__result = new[] { original, Postfix() }.GetEnumerator();
-
-		//	IEnumerator Postfix()
-		//	{
-		//		if (MakerAPI.InsideMaker)
-		//			ChangeAccessoryEvent?.Invoke(null, null);
-		//		yield break;
-		//	}
-		//}
 	}
 }

@@ -8,6 +8,7 @@ using KKAPI.MainGame;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Diagnostics;
 
 namespace KKTriangleInfo
 {
@@ -40,7 +41,7 @@ namespace KKTriangleInfo
 			}
 			catch (Exception ex)
 			{
-				UnityEngine.Debug.Log("Found exception while patching Harmony: " + ex.ToString() + "!");
+				UnityEngine.Debug.LogError("[KKTriangleInfo] Found exception while patching Harmony: " + ex.ToString() + "!");
 			}
 
 			redVal = Config.Bind("General", "Selection Red Value", 0.0f, "Red color value for selection triangle, between 0 and 1");

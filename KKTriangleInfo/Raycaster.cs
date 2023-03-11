@@ -64,7 +64,7 @@ namespace KKTriangleInfo
 
 		void OnGUI()
 		{
-			GUI.Label(new Rect(new Vector2(0f, 110f), new Vector2(500f, 500f)), guiText);
+			GUI.Label(new Rect(new Vector2(0f, Screen.height * 0.75f), new Vector2(500f, 500f)), guiText);
 		}
 
 		public void OnPostRender()

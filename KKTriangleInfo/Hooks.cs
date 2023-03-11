@@ -22,6 +22,8 @@ namespace KKTriangleInfo
 		public static event EventHandler ReloadEvent;
 		public static event EventHandler ChangeAccessoryEvent;
 
+		private static int lastAccEvent = 0;
+
 		//Code taken from Anon11 on the KK Discord
 		[HarmonyPostfix, HarmonyPatch(typeof(ChaControl), nameof(ChaControl.ReloadAsync))]
 		private static void ReloadAsyncPostfix(ChaControl __instance, ref IEnumerator __result)
@@ -32,23 +34,9 @@ namespace KKTriangleInfo
 			IEnumerator Postfix()
 			{
 				ReloadEvent?.Invoke(null, null);
-				//ChangeAccessoryEvent?.Invoke(null, null);
 				yield break;
 			}
 		}
-
-		//[HarmonyPostfix, HarmonyPatch(typeof(ChaControl), nameof(ChaControl.LoadAsync))]
-		//private static void LoadAsyncPostfix(ChaControl __instance, ref IEnumerator __result)
-		//{
-		//	var original = __result;
-		//	__result = new[] { original, Postfix() }.GetEnumerator();
-
-		//	IEnumerator Postfix()
-		//	{
-		//		ChangeAccessoryEvent?.Invoke(null, null);
-		//		yield break;
-		//	}
-		//}
 
 		[HarmonyPostfix, HarmonyPatch(typeof(ChaControl), nameof(ChaControl.ChangeAccessoryAsync), typeof(int), typeof(int), typeof(int), typeof(string), typeof(bool), typeof(bool))]
 		private static void ChangeAccessoryAsyncPostfix(ChaControl __instance, ref IEnumerator __result)
@@ -58,8 +46,12 @@ namespace KKTriangleInfo
 
 			IEnumerator Postfix()
 			{
-				//if (MakerAPI.InsideMaker)		//Do we need this?
+				//This hook is called about 20 times in a row in many cases - we only need to raise the event once per instance of that
+				if (UnityEngine.Time.frameCount != lastAccEvent)
+				{
 					ChangeAccessoryEvent?.Invoke(null, null);
+					lastAccEvent = UnityEngine.Time.frameCount;
+				}
 				yield break;
 			}
 		}

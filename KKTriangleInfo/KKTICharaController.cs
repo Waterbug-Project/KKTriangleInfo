@@ -32,11 +32,11 @@ namespace KKTriangleInfo
 		protected override void Awake()
 		{
 			UpdateCollidersEvent += UpdateColliders;
-			GameAPI.StartH += MakeColliders;
+			GameAPI.StartH += MakeAllColliders;
 			GameAPI.EndH += Cleanup;
-			MakerAPI.MakerBaseLoaded += MakeColliders;
+			MakerAPI.MakerBaseLoaded += MakeAllColliders;
 			MakerAPI.MakerExiting += Cleanup;
-			Hooks.ReloadEvent += MakeColliders;
+			Hooks.ReloadEvent += MakeBodyColliders;
 
 			base.Awake();
 		}
@@ -47,12 +47,17 @@ namespace KKTriangleInfo
 			caster = Camera.main.gameObject.AddComponent<Raycaster>();
 		}
 
-		private void MakeColliders(object sender, EventArgs e)
+		private void MakeBodyColliders(object sender, EventArgs e)
 		{
 			headColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "cf_O_face"), "KKTI_Head");
 			tongueColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_tang"), "KKTI_Tongue");
 			bodyColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objBody.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_body_a"), "KKTI_Body");
 			hairColl = KKTIHairColliders.MakeKKTIHairColliders(ChaControl);
+		}
+
+		private void MakeAllColliders(object sender, EventArgs e)
+		{
+			MakeBodyColliders(sender, e);
 			for (int i = 0; i < clothColls.Length; ++i)
 				clothColls[i] = KKTIClothingColliders.MakeKKTIClothingColliders(ChaControl, (ChaFileDefine.ClothesKind)i);
 			accColl = KKTIAccessoryColliders.MakeKKTIAccessoryColliders(ChaControl);
@@ -64,11 +69,11 @@ namespace KKTriangleInfo
 		public void Cleanup(object sender, EventArgs e)
 		{
 			UpdateCollidersEvent -= UpdateColliders;
-			GameAPI.StartH -= MakeColliders;
+			GameAPI.StartH -= MakeAllColliders;
 			GameAPI.EndH -= Cleanup;
-			MakerAPI.MakerBaseLoaded -= MakeColliders;
+			MakerAPI.MakerBaseLoaded -= MakeAllColliders;
 			MakerAPI.MakerExiting -= Cleanup;
-			Hooks.ReloadEvent -= MakeColliders;
+			Hooks.ReloadEvent -= MakeBodyColliders;
 			if (caster != null)
 				Destroy(caster);
 		}

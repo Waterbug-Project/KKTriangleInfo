@@ -13,7 +13,7 @@ namespace KKTriangleInfo
 		SkinnedMeshRenderer[] rends;
 		GameObject baseObj;
 
-		public static KKTIClothingColliders MakeKKTIClothingColliders(ChaControl inCha, ChaFileDefine.ClothesKind inKind, int inLayer = KKTICharaController.KKTICOLLLAYER)
+		public static KKTIClothingColliders Make(ChaControl inCha, ChaFileDefine.ClothesKind inKind, int inLayer = KKTICharaController.KKTICOLLLAYER)
 		{
 			GameObject newObj = new GameObject();
 			newObj.layer = inLayer;
@@ -69,7 +69,7 @@ namespace KKTriangleInfo
 				rends = baseObj.GetComponentsInChildren<SkinnedMeshRenderer>(true);
 				wbColls = new KKTICollider[rends.Length];
 				for (int i = 0; i < wbColls.Length; ++i)
-					wbColls[i] = KKTICollider.MakeKKTIColliderObj(rends[i], "KKTI_Clothes_Coll_" + rends[i].name, kind);
+					wbColls[i] = KKTICollider.Make(rends[i], "KKTI_Clothes_Coll_" + rends[i].name, kind);
 			}
 			else
 				wbColls = null;

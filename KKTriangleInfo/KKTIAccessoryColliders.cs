@@ -10,7 +10,7 @@ namespace KKTriangleInfo
 		ChaControl cha;
 		List<KKTIAccCollider> accColls;
 
-		public static KKTIAccessoryColliders MakeKKTIAccessoryColliders(ChaControl inCha)
+		public static KKTIAccessoryColliders Make(ChaControl inCha)
 		{
 			GameObject newObj = new GameObject();
 
@@ -38,7 +38,7 @@ namespace KKTriangleInfo
 			while (++i < accArray.Length)
 				if (accArray[i] != null)
 				{
-					KKTIAccCollider newColl = KKTIAccCollider.MakeKKTIAccCollider(accArray[i], i.ToString());
+					KKTIAccCollider newColl = KKTIAccCollider.Make(accArray[i], i.ToString());
 					accColls.Add(newColl);
 				}
 		}

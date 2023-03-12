@@ -49,18 +49,18 @@ namespace KKTriangleInfo
 
 		private void MakeBodyColliders(object sender, EventArgs e)
 		{
-			headColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "cf_O_face"), "KKTI_Head");
-			tongueColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_tang"), "KKTI_Tongue");
-			bodyColl = KKTICollider.MakeKKTIColliderObj(Array.Find(ChaControl.objBody.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_body_a"), "KKTI_Body");
-			hairColl = KKTIHairColliders.MakeKKTIHairColliders(ChaControl);
+			headColl = KKTICollider.Make(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "cf_O_face"), "KKTI_Head");
+			tongueColl = KKTICollider.Make(Array.Find(ChaControl.objHead.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_tang"), "KKTI_Tongue");
+			bodyColl = KKTICollider.Make(Array.Find(ChaControl.objBody.GetComponentsInChildren<SkinnedMeshRenderer>(true), x => x.name == "o_body_a"), "KKTI_Body");
+			hairColl = KKTIHairColliders.Make(ChaControl);
 		}
 
 		private void MakeAllColliders(object sender, EventArgs e)
 		{
 			MakeBodyColliders(sender, e);
 			for (int i = 0; i < clothColls.Length; ++i)
-				clothColls[i] = KKTIClothingColliders.MakeKKTIClothingColliders(ChaControl, (ChaFileDefine.ClothesKind)i);
-			accColl = KKTIAccessoryColliders.MakeKKTIAccessoryColliders(ChaControl);
+				clothColls[i] = KKTIClothingColliders.Make(ChaControl, (ChaFileDefine.ClothesKind)i);
+			accColl = KKTIAccessoryColliders.Make(ChaControl);
 
 			if (caster == null)
 				MakeRaycaster();

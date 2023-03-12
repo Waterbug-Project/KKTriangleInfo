@@ -27,38 +27,31 @@ namespace KKTriangleInfo
 
 		void Update()
 		{
-			try
+			if (KKTriangleInfo.CASTKEY.IsDown())
 			{
-				if (KKTriangleInfo.CASTKEY.IsDown())
+				KKTICharaController.UpdateCollidersEvent.Invoke(this, null);
+				if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, 1 << KKTICharaController.KKTICOLLLAYER))
 				{
-					KKTICharaController.UpdateCollidersEvent.Invoke(this, null);
-					if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, 1 << KKTICharaController.KKTICOLLLAYER))
+					hitColl = hit.collider.gameObject.GetComponent<KKTICollider>();
+					int[] tempTris = hitColl.accessMesh.triangles;
+					vertInds = new int[3];
+					verts = new Vector3[3];
+					for (int i = 0; i < 3; ++i)
 					{
-						hitColl = hit.collider.gameObject.GetComponent<KKTICollider>();
-						int[] tempTris = hitColl.accessMesh.triangles;
-						vertInds = new int[3];
-						verts = new Vector3[3];
-						for (int i = 0; i < 3; ++i)
-						{
-							vertInds[i] = tempTris[hit.triangleIndex * 3 + i];
-							verts[i] = hitColl.transform.TransformPoint(hitColl.accessVerts[vertInds[i]]);
-						}
-						guiText = "Mesh name:\t" + hitColl.accessMesh.name +
-									"\nTriangle Index:\t" + hit.triangleIndex +
-									"\nVertex Numbers:\t" + vertInds[0] + "," + vertInds[1] + "," + vertInds[2] +
-									"\nVertex Positions:\t" + verts[0] + "," + verts[1] + "," + verts[2] +
-									"\nBarycentric Coords:\t" + hit.barycentricCoordinate.ToString();
+						vertInds[i] = tempTris[hit.triangleIndex * 3 + i];
+						verts[i] = hitColl.transform.TransformPoint(hitColl.accessVerts[vertInds[i]]);
 					}
-					else
-					{
-						verts = null;
-						guiText = "Raycast failed to collide with anything!";
-					}
+					guiText = "Mesh name:\t" + hitColl.accessMesh.name +
+								"\nTriangle Index:\t" + hit.triangleIndex +
+								"\nVertex Numbers:\t" + vertInds[0] + "," + vertInds[1] + "," + vertInds[2] +
+								"\nVertex Positions:\t" + verts[0] + "," + verts[1] + "," + verts[2] +
+								"\nBarycentric Coords:\t" + hit.barycentricCoordinate.ToString();
 				}
-			}
-			catch (Exception ex)
-			{
-				UnityEngine.Debug.Log("Found exception in Raycaster.Update: " + ex.ToString() + "!");
+				else
+				{
+					verts = null;
+					guiText = "Raycast failed to collide with anything!";
+				}
 			}
 		}
 

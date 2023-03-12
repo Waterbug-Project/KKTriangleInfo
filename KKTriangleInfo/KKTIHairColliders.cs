@@ -13,7 +13,7 @@ namespace KKTriangleInfo
 		List<SkinnedMeshRenderer> rends;
 		List<MeshFilter> filts;
 
-		public static KKTIHairColliders MakeKKTIHairColliders(ChaControl inCha)
+		public static KKTIHairColliders Make(ChaControl inCha)
 		{
 			GameObject newObj = new GameObject();
 			KKTIHairColliders output = newObj.AddComponent<KKTIHairColliders>();
@@ -29,10 +29,10 @@ namespace KKTriangleInfo
 			}
 
 			foreach (SkinnedMeshRenderer smr in output.rends)
-				output.hairColls.Add(KKTICollider.MakeKKTIColliderObj(smr, "KKTI_Hair_Part"));
+				output.hairColls.Add(KKTICollider.Make(smr, "KKTI_Hair_Part"));
 
 			foreach (MeshFilter filt in output.filts)
-				output.hairColls.Add(KKTICollider.MakeKKTIColliderObj(filt, "KKTI_Hair_Part"));
+				output.hairColls.Add(KKTICollider.Make(filt, "KKTI_Hair_Part"));
 
 			return output;
 		}

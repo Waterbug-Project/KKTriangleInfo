@@ -13,7 +13,7 @@ namespace KKTriangleInfo
 		KKTICollider[] colls;
 		string accID;
 
-		public static KKTIAccCollider MakeKKTIAccCollider(GameObject inAcc, string inID = "X", int inLayer = KKTICharaController.KKTICOLLLAYER)
+		public static KKTIAccCollider Make(GameObject inAcc, string inID = "X", int inLayer = KKTICharaController.KKTICOLLLAYER)
 		{
 			GameObject newObj = new GameObject();
 			newObj.layer = inLayer;
@@ -39,12 +39,12 @@ namespace KKTriangleInfo
 			int accCollIter = 0;
 			foreach (int ind in rendsInds)
 			{
-				output.colls[accCollIter] = KKTICollider.MakeKKTIColliderObj(rends[ind], "KKTI_Acc_Coll_SMR_" + inID + "_" + accCollIter);
+				output.colls[accCollIter] = KKTICollider.Make(rends[ind], "KKTI_Acc_Coll_SMR_" + inID + "_" + accCollIter);
 				accCollIter++;
 			}
 			foreach (int ind in filtsInds)
 			{
-				output.colls[accCollIter] = KKTICollider.MakeKKTIColliderObj(filts[ind], "KKTI_Acc_Coll_MF_" + inID + "_" + accCollIter);
+				output.colls[accCollIter] = KKTICollider.Make(filts[ind], "KKTI_Acc_Coll_MF_" + inID + "_" + accCollIter);
 				accCollIter++;
 			}
 

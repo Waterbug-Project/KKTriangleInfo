@@ -21,7 +21,7 @@ namespace KKTriangleInfo
 		private MeshFilter debugFilt;
 
 		//Surely there must be a better way of getting all this information in.
-		public static KKTICollider MakeKKTIColliderObj(SkinnedMeshRenderer inSource, string inName = "KKTICollider",
+		public static KKTICollider Make(SkinnedMeshRenderer inSource, string inName = "KKTICollider",
 			ChaFileDefine.ClothesKind inKind = ChaFileDefine.ClothesKind.top)
 		{
 			Mesh mesh = new Mesh();
@@ -30,16 +30,16 @@ namespace KKTriangleInfo
 			mesh.RecalculateNormals();
 			mesh.name = inSource.name;
 
-			return MakeKKTICollInternal(inSource.transform, mesh, inName, inSource, inKind);
+			return MakeInternal(inSource.transform, mesh, inName, inSource, inKind);
 		}
 
-		public static KKTICollider MakeKKTIColliderObj(MeshFilter inSource, string inName = "KKTICollider",
+		public static KKTICollider Make(MeshFilter inSource, string inName = "KKTICollider",
 			ChaFileDefine.ClothesKind inKind = ChaFileDefine.ClothesKind.top)
 		{
-			return MakeKKTICollInternal(inSource.transform, inSource.sharedMesh, inName, null, inKind);
+			return MakeInternal(inSource.transform, inSource.sharedMesh, inName, null, inKind);
 		}
 
-		private static KKTICollider MakeKKTICollInternal(Transform inTransf, Mesh inMesh, string inName,
+		private static KKTICollider MakeInternal(Transform inTransf, Mesh inMesh, string inName,
 			SkinnedMeshRenderer inSource = null, ChaFileDefine.ClothesKind inKind = ChaFileDefine.ClothesKind.top)
 		{
 			GameObject newObj = new GameObject();

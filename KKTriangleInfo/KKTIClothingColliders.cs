@@ -60,8 +60,7 @@ namespace KKTriangleInfo
 
 		private void LoadClothingMeshes()
 		{
-			int kindAsInt = (int)kind;
-			baseObj = cha.objClothes[kindAsInt];
+			baseObj = cha.objClothes[(int)kind];
 			//Only try to load the colliders for this piece of clothing if the new outfit actually includes clothing within this clothing slot
 			if (baseObj != null)
 			{
@@ -69,7 +68,7 @@ namespace KKTriangleInfo
 				rends = baseObj.GetComponentsInChildren<SkinnedMeshRenderer>(true);
 				wbColls = new KKTICollider[rends.Length];
 				for (int i = 0; i < wbColls.Length; ++i)
-					wbColls[i] = KKTICollider.Make(rends[i], "KKTI_Clothes_Coll_" + rends[i].name, kind);
+					wbColls[i] = KKTICollider.Make(rends[i], "KKTI_Clothes_Coll_" + rends[i].name);
 			}
 			else
 				wbColls = null;

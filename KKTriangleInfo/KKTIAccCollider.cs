@@ -11,7 +11,6 @@ namespace KKTriangleInfo
 	{
 		GameObject acc;
 		KKTICollider[] colls;
-		string accID;
 
 		public static KKTIAccCollider Make(GameObject inAcc, string inID = "X", int inLayer = KKTICharaController.KKTICOLLLAYER)
 		{
@@ -19,7 +18,6 @@ namespace KKTriangleInfo
 			newObj.layer = inLayer;
 			KKTIAccCollider output = newObj.AddComponent<KKTIAccCollider>();
 			output.acc = inAcc;
-			output.accID = inID;
 			output.name = "KKTI_Acc_Coll_" + inID;
 
 			SkinnedMeshRenderer[] rends = output.acc.GetComponentsInChildren<SkinnedMeshRenderer>(true);

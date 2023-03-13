@@ -89,6 +89,7 @@ namespace KKTriangleInfo
 			accColl.UpdateCollider();
 		}
 
+		//DEBUG
 		protected override void Update()
 		{
 			if (ChaControl.sex == 1)

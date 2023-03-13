@@ -10,28 +10,25 @@ namespace KKTriangleInfo
 	class KKTIHairColliders : MonoBehaviour
 	{
 		List<KKTICollider> hairColls;
-		List<SkinnedMeshRenderer> rends;
-		List<MeshFilter> filts;
 
 		public static KKTIHairColliders Make(ChaControl inCha)
 		{
 			GameObject newObj = new GameObject();
 			KKTIHairColliders output = newObj.AddComponent<KKTIHairColliders>();
 			output.hairColls = new List<KKTICollider>();
-			output.rends = new List<SkinnedMeshRenderer>();
-			output.filts = new List<MeshFilter>();
 			output.name = "KKTI_Hair_Colliders";
 			GameObject[] hairIter = inCha.objHair;
+
+			List<SkinnedMeshRenderer> rends = new List<SkinnedMeshRenderer>();
+			List<MeshFilter> filts = new List<MeshFilter>();
 			foreach (GameObject go in hairIter)
 			{
-				output.rends.AddRange(go.GetComponentsInChildren<SkinnedMeshRenderer>(true));
-				output.filts.AddRange(go.GetComponentsInChildren<MeshFilter>(true));
+				rends.AddRange(go.GetComponentsInChildren<SkinnedMeshRenderer>(true));
+				filts.AddRange(go.GetComponentsInChildren<MeshFilter>(true));
 			}
-
-			foreach (SkinnedMeshRenderer smr in output.rends)
+			foreach (SkinnedMeshRenderer smr in rends)
 				output.hairColls.Add(KKTICollider.Make(smr, "KKTI_Hair_Part"));
-
-			foreach (MeshFilter filt in output.filts)
+			foreach (MeshFilter filt in filts)
 				output.hairColls.Add(KKTICollider.Make(filt, "KKTI_Hair_Part"));
 
 			return output;

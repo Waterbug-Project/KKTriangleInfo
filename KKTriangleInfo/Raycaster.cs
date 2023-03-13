@@ -8,7 +8,6 @@ namespace KKTriangleInfo
 {
 	class Raycaster : MonoBehaviour
 	{
-		Camera mainCamera;
 		string guiText;
 		int[] vertInds;
 		Vector3[] verts;
@@ -18,7 +17,6 @@ namespace KKTriangleInfo
 		
 		void Start()
 		{
-			mainCamera = Camera.main;
 			guiText = "Press \"" + KKTriangleInfo.CASTKEY + "\" to select the polygon underneath the cursor!";
 			glMat = new Material(Shader.Find("Hidden/Internal-Colored"));
 			glMat.color = KKTriangleInfo.SELECTCOLOR;
@@ -30,7 +28,7 @@ namespace KKTriangleInfo
 			if (KKTriangleInfo.CASTKEY.IsDown())
 			{
 				KKTICharaController.UpdateCollidersEvent.Invoke(this, null);
-				if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, 1 << KKTICharaController.KKTICOLLLAYER))
+				if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, 1 << KKTICharaController.KKTICOLLLAYER))
 				{
 					hitColl = hit.collider.gameObject.GetComponent<KKTICollider>();
 					int[] tempTris = hitColl.accessMesh.triangles;
@@ -65,7 +63,7 @@ namespace KKTriangleInfo
 			if (verts != null && hitColl.isActiveAndEnabled)
 			{
 				for (int i = 0; i < 3; ++i)
-					viewVerts[i] = mainCamera.WorldToViewportPoint(hitColl.transform.TransformPoint(hitColl.accessVerts[vertInds[i]]));
+					viewVerts[i] = Camera.main.WorldToViewportPoint(hitColl.transform.TransformPoint(hitColl.accessVerts[vertInds[i]]));
 
 				GL.PushMatrix();
 				glMat.SetPass(0);

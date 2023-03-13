@@ -7,10 +7,9 @@ using UnityEngine;
 namespace KKTriangleInfo
 {
 	//A collider for raycasts to intersect. The collision mesh updates in real time, if based on a SkinnedMeshRenderer.
-	[DefaultExecutionOrder(10000000)]
+	[DefaultExecutionOrder(10000000)]		//Updates colliders after all bones have moved into place
 	class KKTICollider : MonoBehaviour
 	{
-		private Transform baseTransf;
 		private SkinnedMeshRenderer meshSource;
 		private MeshCollider coll;
 
@@ -21,26 +20,23 @@ namespace KKTriangleInfo
 		private MeshFilter debugFilt;
 
 		//Surely there must be a better way of getting all this information in.
-		public static KKTICollider Make(SkinnedMeshRenderer inSource, string inName = "KKTICollider",
-			ChaFileDefine.ClothesKind inKind = ChaFileDefine.ClothesKind.top)
+		public static KKTICollider Make(SkinnedMeshRenderer inSource, string inName = "KKTICollider")
 		{
 			Mesh mesh = new Mesh();
 			inSource.BakeMesh(mesh);
 			mesh.RecalculateBounds();
-			mesh.RecalculateNormals();
 			mesh.name = inSource.name;
 
-			return MakeInternal(inSource.transform, mesh, inName, inSource, inKind);
+			return MakeInternal(inSource.transform, mesh, inName, inSource);
 		}
 
-		public static KKTICollider Make(MeshFilter inSource, string inName = "KKTICollider",
-			ChaFileDefine.ClothesKind inKind = ChaFileDefine.ClothesKind.top)
+		public static KKTICollider Make(MeshFilter inSource, string inName = "KKTICollider")
 		{
-			return MakeInternal(inSource.transform, inSource.sharedMesh, inName, null, inKind);
+			return MakeInternal(inSource.transform, inSource.sharedMesh, inName);
 		}
 
 		private static KKTICollider MakeInternal(Transform inTransf, Mesh inMesh, string inName,
-			SkinnedMeshRenderer inSource = null, ChaFileDefine.ClothesKind inKind = ChaFileDefine.ClothesKind.top)
+			SkinnedMeshRenderer inSource = null)
 		{
 			GameObject newObj = new GameObject();
 			KKTICollider output = newObj.AddComponent<KKTICollider>();
@@ -56,8 +52,7 @@ namespace KKTriangleInfo
 			output.debugRend = newObj.AddComponent<MeshRenderer>();
 			output.debugRend.material = new Material(Shader.Find("Hidden/Internal-Colored"));
 			output.debugRend.enabled = false;
-
-			output.baseTransf = inTransf;
+			
 			output.meshSource = inSource;
 			output.coll = newObj.AddComponent<MeshCollider>();
 
@@ -71,12 +66,9 @@ namespace KKTriangleInfo
 			else
 			{
 				output.accessMesh = inMesh;
-				output.accessMesh.RecalculateBounds();
-				output.accessMesh.RecalculateNormals();
 				output.accessMesh.GetVertices(output.accessVerts);
 				output.coll.sharedMesh = inMesh;
 				output.coll.sharedMesh.RecalculateBounds();
-				output.coll.sharedMesh.RecalculateNormals();
 			}
 
 			newObj.transform.position = inTransf.position;
@@ -91,7 +83,6 @@ namespace KKTriangleInfo
 
 		void LateUpdate()
 		{
-			//Originally caught edge cases - now allows colliders based on MeshFilters to avoid redundant calculations.
 			if (meshSource != null)
 				UpdatePublics();
 		}
@@ -100,14 +91,13 @@ namespace KKTriangleInfo
 		{
 			if (isActiveAndEnabled)
 			{
-				accessMesh.MarkDynamic();
-				coll.sharedMesh = null;
-				coll.sharedMesh = new Mesh();
-				coll.sharedMesh.MarkDynamic();
-				accessMesh.RecalculateBounds();
+				//accessMesh.MarkDynamic();
+				//coll.sharedMesh = null;
+				//coll.sharedMesh = new Mesh();
+				//coll.sharedMesh.MarkDynamic();
+				//accessMesh.RecalculateBounds();
 				coll.sharedMesh = accessMesh;
-				coll.sharedMesh.RecalculateBounds();
-				coll.sharedMesh.RecalculateNormals();
+				//coll.sharedMesh.RecalculateBounds();
 			}
 		}
 

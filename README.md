@@ -8,8 +8,8 @@ This highlight can be seen through other meshes, but will not show up if you zoo
 
 Information on the triangle will appear in the lower left of the screen, just above the yellow button to return to the menu.
 Information displayed includes:
-  Name of mesh
-  Triangle index of triangle
-  Vertex numbers of triangle
-  Vertex positions of triangle
-  Barycentric coordinates of where the cursor was within the triangle at the time of selection
+ - Name of mesh
+ - Triangle index of triangle
+ - Vertex numbers of triangle
+ - Vertex positions of triangle
+ - Barycentric coordinates of where the cursor was within the triangle at the time of selection

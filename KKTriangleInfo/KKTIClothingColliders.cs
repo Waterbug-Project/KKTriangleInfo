@@ -20,7 +20,7 @@ namespace KKTriangleInfo
 			KKTIClothingColliders output = newObj.AddComponent<KKTIClothingColliders>();
 			output.cha = inCha;
 			if (!output.cha.IsClothesStateKind((int)inKind))
-				UnityEngine.Debug.LogError("[Tess]\tClothesKind " + inKind + " is not valid for the given character!");
+				UnityEngine.Debug.LogError("[KKTriangleInfo]\tClothesKind " + inKind + " is not valid for the given character!");
 			output.kind = inKind;
 			output.name = "KKTI_Clothing_Colliders_" + inKind.ToString();
 			output.LoadClothingMeshes();

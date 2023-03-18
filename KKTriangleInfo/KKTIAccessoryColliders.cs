@@ -43,18 +43,6 @@ namespace KKTriangleInfo
 				}
 		}
 
-		public void SetVisible(bool inVisible)
-		{
-			foreach (KKTIAccCollider coll in accColls)
-				coll.gameObject.GetComponent<KKTIAccCollider>().SetVisible(inVisible);
-		}
-
-		public void ToggleVisible()
-		{
-			foreach (KKTIAccCollider coll in accColls)
-				coll.gameObject.GetComponent<KKTIAccCollider>().ToggleVisible();
-		}
-
 		public void UpdateCollider()
 		{
 			foreach (KKTIAccCollider coll in accColls)

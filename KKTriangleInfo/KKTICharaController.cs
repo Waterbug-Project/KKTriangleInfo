@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using KKAPI.Chara;
 using KKAPI;
@@ -87,19 +84,6 @@ namespace KKTriangleInfo
 			foreach (KKTIClothingColliders coll in clothColls)
 				coll.UpdateCollider();
 			accColl.UpdateCollider();
-		}
-
-		//DEBUG
-		protected override void Update()
-		{
-			if (ChaControl.sex == 1)
-			{
-				if (Input.GetKeyDown("y"))
-				{
-					bodyColl.UpdateCollider();
-					bodyColl.ToggleVisible();
-				}
-			}
 		}
 	}
 }

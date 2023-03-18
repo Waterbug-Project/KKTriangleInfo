@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace KKTriangleInfo
@@ -15,11 +12,7 @@ namespace KKTriangleInfo
 
 		public Mesh accessMesh;
 		public List<Vector3> accessVerts;
-
-		private MeshRenderer debugRend;
-		private MeshFilter debugFilt;
-
-		//Surely there must be a better way of getting all this information in.
+		
 		public static KKTICollider Make(SkinnedMeshRenderer inSource, string inName = "KKTICollider")
 		{
 			Mesh mesh = new Mesh();
@@ -39,20 +32,9 @@ namespace KKTriangleInfo
 			SkinnedMeshRenderer inSource = null)
 		{
 			GameObject newObj = new GameObject();
-			KKTICollider output = newObj.AddComponent<KKTICollider>();
-
 			newObj.AddComponent<Rigidbody>().isKinematic = true;
-
-			//DEBUG - add togglable visibility
-			output.debugFilt = newObj.AddComponent<MeshFilter>();
-			output.debugFilt.mesh = new Mesh();
-			output.debugFilt.mesh.vertices = inMesh.vertices;
-			output.debugFilt.mesh.uv = inMesh.uv;
-			output.debugFilt.mesh.triangles = inMesh.triangles;
-			output.debugRend = newObj.AddComponent<MeshRenderer>();
-			output.debugRend.material = new Material(Shader.Find("Hidden/Internal-Colored"));
-			output.debugRend.enabled = false;
 			
+			KKTICollider output = newObj.AddComponent<KKTICollider>();
 			output.meshSource = inSource;
 			output.coll = newObj.AddComponent<MeshCollider>();
 
@@ -109,22 +91,6 @@ namespace KKTriangleInfo
 			//Retreive vertices of the mesh once per frame
 			//All of the particles stuck to/colliding with this mesh will reference the retrieved list, instead of retrieving it once per frame per particle
 			accessMesh.GetVertices(accessVerts);
-		}
-
-		public void SetVisible(bool inVisible)
-		{
-			if (inVisible)
-			{
-				debugFilt.mesh.vertices = coll.sharedMesh.vertices;
-				debugFilt.mesh.triangles = coll.sharedMesh.triangles;
-			}
-
-			debugRend.enabled = inVisible;
-		}
-
-		public void ToggleVisible()
-		{
-			SetVisible(!debugRend.enabled);
 		}
 	}
 }

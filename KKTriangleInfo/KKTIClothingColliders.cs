@@ -9,7 +9,7 @@ namespace KKTriangleInfo
 	{
 		ChaControl cha;
 		ChaFileDefine.ClothesKind kind;
-		KKTICollider[] wbColls;
+		KKTICollider[] colls;
 		SkinnedMeshRenderer[] rends;
 		GameObject baseObj;
 
@@ -24,7 +24,7 @@ namespace KKTriangleInfo
 			output.kind = inKind;
 			output.name = "KKTI_Clothing_Colliders_" + inKind.ToString();
 			output.LoadClothingMeshes();
-			//It would be nice to put this in a function, bu tI can't figure out how to pass in the handler.
+			//It would be nice to put this in a function, but I can't figure out how to pass in the handler.
 			switch (inKind)
 			{
 				case ChaFileDefine.ClothesKind.top:			Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
@@ -51,10 +51,10 @@ namespace KKTriangleInfo
 		//Called when the current article of clothing is changed for a different one
 		private void ReloadClothes()
 		{
-			if (wbColls != null)
-				for (int i = 0; i < wbColls.Length; ++i)
-					if (wbColls[i] != null)
-						Destroy(wbColls[i].gameObject);
+			if (colls != null)
+				for (int i = 0; i < colls.Length; ++i)
+					if (colls[i] != null)
+						Destroy(colls[i].gameObject);
 			LoadClothingMeshes();
 		}
 
@@ -66,34 +66,18 @@ namespace KKTriangleInfo
 			{
 				//We're assuming that no clothes use MeshRenderers here.
 				rends = baseObj.GetComponentsInChildren<SkinnedMeshRenderer>(true);
-				wbColls = new KKTICollider[rends.Length];
-				for (int i = 0; i < wbColls.Length; ++i)
-					wbColls[i] = KKTICollider.Make(rends[i], "KKTI_Clothes_Coll_" + rends[i].name);
+				colls = new KKTICollider[rends.Length];
+				for (int i = 0; i < colls.Length; ++i)
+					colls[i] = KKTICollider.Make(rends[i], "KKTI_Clothes_Coll_" + rends[i].name);
 			}
 			else
-				wbColls = null;
-		}
-
-		public void SetVisible(bool inVisible)
-		{
-			if (wbColls != null)
-				for (int i = 0; i < wbColls.Length; ++i)
-					if (rends[i].isVisible)
-						wbColls[i].SetVisible(inVisible);
-		}
-
-		public void ToggleVisible()
-		{
-			if (wbColls != null)
-				for (int i = 0; i < wbColls.Length; ++i)
-					if (rends[i].isVisible)
-						wbColls[i].ToggleVisible();
+				colls = null;
 		}
 
 		public void UpdateCollider()
 		{
-			if (wbColls != null)
-				foreach (KKTICollider coll in wbColls)
+			if (colls != null)
+				foreach (KKTICollider coll in colls)
 					coll.UpdateCollider();
 		}
 
@@ -111,9 +95,9 @@ namespace KKTriangleInfo
 				case ChaFileDefine.ClothesKind.shoes_inner: Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
 				case ChaFileDefine.ClothesKind.shoes_outer: Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
 			}
-			if (wbColls != null)
-				for (int i = 0; i < wbColls.Length; ++i)
-					Destroy(wbColls[i].gameObject);
+			if (colls != null)
+				for (int i = 0; i < colls.Length; ++i)
+					Destroy(colls[i].gameObject);
 		}
 	}
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace KKTriangleInfo
@@ -32,18 +29,6 @@ namespace KKTriangleInfo
 				output.hairColls.Add(KKTICollider.Make(filt, "KKTI_Hair_Part"));
 
 			return output;
-		}
-		
-		public void SetVisible(bool inVisible)
-		{
-			foreach (KKTICollider coll in hairColls)
-				coll.SetVisible(inVisible);
-		}
-		
-		public void ToggleVisible()
-		{
-			foreach (KKTICollider coll in hairColls)
-				coll.ToggleVisible();
 		}
 		
 		public void UpdateCollider()

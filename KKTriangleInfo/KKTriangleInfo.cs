@@ -4,11 +4,8 @@ using BepInEx.Logging;
 using HarmonyLib;
 using KKAPI;
 using KKAPI.Chara;
-using KKAPI.MainGame;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Diagnostics;
 
 namespace KKTriangleInfo
 {
@@ -18,7 +15,7 @@ namespace KKTriangleInfo
 	{
 		public const string PluginName = "KK_TriangleInfo";
 		public const string GUID = "waterbug.plugins.kktriangleinfo";
-		public const string Version = "0.0.0.0";
+		public const string Version = "1.0.0.0";
 
 		public static Color SELECTCOLOR;
 		public static KeyboardShortcut CASTKEY;

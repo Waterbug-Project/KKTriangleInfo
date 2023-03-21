@@ -15,7 +15,7 @@ namespace KKTriangleInfo
 	{
 		public const string PluginName = "KK_TriangleInfo";
 		public const string GUID = "waterbug.plugins.kktriangleinfo";
-		public const string Version = "1.0.0.0";
+		public const string Version = "1.0.1.0";
 
 		public static Color SELECTCOLOR;
 		public static KeyboardShortcut CASTKEY;

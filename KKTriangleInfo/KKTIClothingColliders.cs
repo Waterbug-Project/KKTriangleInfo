@@ -28,17 +28,17 @@ namespace KKTriangleInfo
 			switch (inKind)
 			{
 				case ChaFileDefine.ClothesKind.top:			Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
-				case ChaFileDefine.ClothesKind.bot:			Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
-				case ChaFileDefine.ClothesKind.bra:			Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
-				case ChaFileDefine.ClothesKind.shorts:		Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
-				case ChaFileDefine.ClothesKind.gloves:		Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
-				case ChaFileDefine.ClothesKind.panst:		Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
-				case ChaFileDefine.ClothesKind.socks:		Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
-				case ChaFileDefine.ClothesKind.shoes_inner:	Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
-				case ChaFileDefine.ClothesKind.shoes_outer:	Hooks.ChangeClothesTopEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.bot:			Hooks.ChangeClothesBotEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.bra:			Hooks.ChangeClothesBraEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.shorts:		Hooks.ChangeClothesShortsEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.gloves:		Hooks.ChangeClothesGlovesEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.panst:		Hooks.ChangeClothesPanstEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.socks:		Hooks.ChangeClothesSocksEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.shoes_inner:	Hooks.ChangeClothesShoesEvent += output.ChangeClothesHandler;	break;
+				case ChaFileDefine.ClothesKind.shoes_outer:	Hooks.ChangeClothesShoesEvent += output.ChangeClothesHandler;	break;
 			}
 
-				return output;
+			return output;
 		}
 
 		public void ChangeClothesHandler(object sender, EventArgs e)
@@ -86,14 +86,14 @@ namespace KKTriangleInfo
 			switch (kind)
 			{
 				case ChaFileDefine.ClothesKind.top:			Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
-				case ChaFileDefine.ClothesKind.bot:			Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
-				case ChaFileDefine.ClothesKind.bra:			Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
-				case ChaFileDefine.ClothesKind.shorts:		Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
-				case ChaFileDefine.ClothesKind.gloves:		Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
-				case ChaFileDefine.ClothesKind.panst:		Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
-				case ChaFileDefine.ClothesKind.socks:		Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
-				case ChaFileDefine.ClothesKind.shoes_inner: Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
-				case ChaFileDefine.ClothesKind.shoes_outer: Hooks.ChangeClothesTopEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.bot:			Hooks.ChangeClothesBotEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.bra:			Hooks.ChangeClothesBraEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.shorts:		Hooks.ChangeClothesShortsEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.gloves:		Hooks.ChangeClothesGlovesEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.panst:		Hooks.ChangeClothesPanstEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.socks:		Hooks.ChangeClothesSocksEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.shoes_inner:	Hooks.ChangeClothesShoesEvent -= ChangeClothesHandler; break;
+				case ChaFileDefine.ClothesKind.shoes_outer:	Hooks.ChangeClothesShoesEvent -= ChangeClothesHandler; break;
 			}
 			if (colls != null)
 				for (int i = 0; i < colls.Length; ++i)

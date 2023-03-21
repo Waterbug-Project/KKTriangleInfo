@@ -44,7 +44,10 @@ namespace KKTriangleInfo
 			output.accessMesh.name = inMesh.name;
 			output.accessVerts = new List<Vector3>();
 			if (output.meshSource != null)
+			{
 				output.UpdatePublics();
+				output.coll.sharedMesh = output.accessMesh;
+			}
 			else
 			{
 				output.accessMesh = inMesh;
